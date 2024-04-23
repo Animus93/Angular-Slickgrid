@@ -16,7 +16,7 @@
     "url": "https://github.com/ghiscoding/Angular-Slickgrid/issues"
   },
   "scripts": {
-    "start": "ng serve --port 4300",
+    "start": "ng serve",
     "prebuild": "npm-run-all delete:dist lint",
     "build": "ng-packagr -p ng-package.json -c tsconfig.json",
     "postbuild": "npm-run-all copy:i18n",
@@ -59,6 +59,7 @@
     "@slickgrid-universal/rxjs-observable": "~4.7.0",
     "dequal": "^2.0.3",
     "isomorphic-dompurify": "^2.7.0",
+    "node": "^18.20.2",
     "rxjs": "^7.8.1",
     "sortablejs": "^1.15.2"
   },

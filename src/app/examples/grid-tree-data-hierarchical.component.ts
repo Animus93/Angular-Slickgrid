@@ -56,6 +56,7 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
 
     // mock a dataset
     this.datasetHierarchical = this.mockDataset();
+    console.log('datasetHierarchical',this.datasetHierarchical)
   }
 
   defineGrid() {
@@ -363,49 +364,250 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
     console.log('flat array', this.angularGrid.treeDataService.dataset);
   }
 
-  mockDataset() {
-    return [
-      { id: 24, file: 'bucket-list.txt', dateModified: '2012-03-05T12:44:00.123Z', size: 0.5 },
-      { id: 18, file: 'something.txt', dateModified: '2015-03-03T03:50:00.123Z', size: 90 },
-      {
-        id: 21, file: 'documents', files: [
-          { id: 2, file: 'txt', files: [{ id: 3, file: 'todo.txt', description: 'things to do someday maybe', dateModified: '2015-05-12T14:50:00.123Z', size: 0.7, }] },
-          {
-            id: 4, file: 'pdf', files: [
-              { id: 22, file: 'map2.pdf', dateModified: '2015-07-21T08:22:00.123Z', size: 2.9, },
-              { id: 5, file: 'map.pdf', dateModified: '2015-05-21T10:22:00.123Z', size: 3.1, },
-              { id: 6, file: 'internet-bill.pdf', dateModified: '2015-05-12T14:50:00.123Z', size: 1.3, },
-              { id: 23, file: 'phone-bill.pdf', dateModified: '2015-05-01T07:50:00.123Z', size: 1.5, },
-            ]
-          },
-          { id: 9, file: 'misc', files: [{ id: 10, file: 'warranties.txt', dateModified: '2015-02-26T16:50:00.123Z', size: 0.4, }] },
-          { id: 7, file: 'xls', files: [{ id: 8, file: 'compilation.xls', dateModified: '2014-10-02T14:50:00.123Z', size: 2.3, }] },
-          { id: 55, file: 'unclassified.csv', dateModified: '2015-04-08T03:44:12.333Z', size: 0.25, },
-          { id: 56, file: 'unresolved.csv', dateModified: '2015-04-03T03:21:12.000Z', size: 0.79, },
-          { id: 57, file: 'zebra.dll', dateModified: '2016-12-08T13:22:12.432', size: 1.22, },
-        ]
-      },
-      {
-        id: 11, file: 'music', files: [{
-          id: 12, file: 'mp3', files: [
-            { id: 16, file: 'rock', files: [{ id: 17, file: 'soft.mp3', dateModified: '2015-05-13T13:50:00Z', size: 98, }] },
+  public myData = [
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 1,
+        "name": "Автоматизация, интеграция",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": [
             {
-              id: 14, file: 'pop', files: [
-                { id: 15, file: 'theme.mp3', description: 'Movie Theme Song', dateModified: '2015-03-01T17:05:00Z', size: 47, },
-                { id: 25, file: 'song.mp3', description: 'it is a song...', dateModified: '2016-10-04T06:33:44Z', size: 6.3, }
-              ],
+                "accountId": 1,
+                "createdAt": "2024-04-22T11:05:27.176Z",
+                "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+                "updatedAt": "2024-04-22T11:05:27.176Z",
+                "updatedById": null,
+                "id": 12,
+                "name": "2.1 подгруппа",
+                "weight": null,
+                "projectId": 1,
+                "parentTypeGroupId": 1,
+                "reqTypeId": 2,
+                "position": null,
+                "children": [
+                    {
+                        "accountId": 1,
+                        "createdAt": "2024-04-23T06:42:11.454Z",
+                        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+                        "updatedAt": "2024-04-23T06:42:13.238Z",
+                        "updatedById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+                        "id": 13,
+                        "name": "подгруппа 2.1.1",
+                        "weight": null,
+                        "projectId": 1,
+                        "parentTypeGroupId": 12,
+                        "reqTypeId": 2,
+                        "position": null,
+                        "children": []
+                    }
+                ]
             },
-            { id: 33, file: 'other', files: [] }
-          ]
-        }]
-      },
-      {
-        id: 26, file: 'recipes', description: 'Cake Recipes', dateModified: '2012-03-05T12:44:00.123Z', files: [
-          { id: 29, file: 'cheesecake', description: 'strawberry cheesecake', dateModified: '2012-04-04T13:52:00.123Z', size: 0.2 },
-          { id: 30, file: 'chocolate-cake', description: 'tasty sweet chocolate cake', dateModified: '2012-05-05T09:22:00.123Z', size: 0.2 },
-          { id: 31, file: 'coffee-cake', description: 'chocolate coffee cake', dateModified: '2012-01-01T08:08:48.123Z', size: 0.2 },
+            {
+                "accountId": 1,
+                "createdAt": "2024-04-23T06:42:23.818Z",
+                "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+                "updatedAt": "2024-04-23T06:42:23.818Z",
+                "updatedById": null,
+                "id": 14,
+                "name": " подгруппа 2.2",
+                "weight": null,
+                "projectId": 1,
+                "parentTypeGroupId": 1,
+                "reqTypeId": 2,
+                "position": null,
+                "children": []
+            }
         ]
-      },
-    ];
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 9,
+        "name": "Коммуникации",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 4,
+        "name": "Логирование, версионирование",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 7,
+        "name": "Написание статей",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 2,
+        "name": "Работа с различными артефактами",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 5,
+        "name": "Уведомления",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 3,
+        "name": "Чтение и обработка статьи пользователем",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 8,
+        "name": "Шаблоны, переиспользуемые механики",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": []
+    },
+    {
+        "accountId": 1,
+        "createdAt": "2024-04-22T05:59:59.684Z",
+        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+        "updatedAt": "2024-04-22T05:59:59.684Z",
+        "updatedById": null,
+        "id": 6,
+        "name": "кастомизация, расширения, плагины",
+        "weight": null,
+        "projectId": 1,
+        "parentTypeGroupId": null,
+        "reqTypeId": 2,
+        "position": null,
+        "children": [
+            {
+                "accountId": 1,
+                "createdAt": "2024-04-22T06:01:55.188Z",
+                "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+                "updatedAt": "2024-04-22T06:01:59.783Z",
+                "updatedById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+                "id": 11,
+                "name": "кастомизация раслиен",
+                "weight": null,
+                "projectId": 1,
+                "parentTypeGroupId": 6,
+                "reqTypeId": 2,
+                "position": null,
+                "children": []
+            }
+        ]
+    }
+]
+  mockDataset() {
+    return this.myData
+    // return [
+    //   { id: 24, file: 'bucket-list.txt', dateModified: '2012-03-05T12:44:00.123Z', size: 0.5 },
+    //   { id: 18, file: 'something.txt', dateModified: '2015-03-03T03:50:00.123Z', size: 90 },
+    //   {
+    //     id: 21, file: 'documents', files: [
+    //       { id: 2, file: 'txt', files: [{ id: 3, file: 'todo.txt', description: 'things to do someday maybe', dateModified: '2015-05-12T14:50:00.123Z', size: 0.7, }] },
+    //       {
+    //         id: 4, file: 'pdf', files: [
+    //           { id: 22, file: 'map2.pdf', dateModified: '2015-07-21T08:22:00.123Z', size: 2.9, },
+    //           { id: 5, file: 'map.pdf', dateModified: '2015-05-21T10:22:00.123Z', size: 3.1, },
+    //           { id: 6, file: 'internet-bill.pdf', dateModified: '2015-05-12T14:50:00.123Z', size: 1.3, },
+    //           { id: 23, file: 'phone-bill.pdf', dateModified: '2015-05-01T07:50:00.123Z', size: 1.5, },
+    //         ]
+    //       },
+    //       { id: 9, file: 'misc', files: [{ id: 10, file: 'warranties.txt', dateModified: '2015-02-26T16:50:00.123Z', size: 0.4, }] },
+    //       { id: 7, file: 'xls', files: [{ id: 8, file: 'compilation.xls', dateModified: '2014-10-02T14:50:00.123Z', size: 2.3, }] },
+    //       { id: 55, file: 'unclassified.csv', dateModified: '2015-04-08T03:44:12.333Z', size: 0.25, },
+    //       { id: 56, file: 'unresolved.csv', dateModified: '2015-04-03T03:21:12.000Z', size: 0.79, },
+    //       { id: 57, file: 'zebra.dll', dateModified: '2016-12-08T13:22:12.432', size: 1.22, },
+    //     ]
+    //   },
+    //   {
+    //     id: 11, file: 'music', files: [{
+    //       id: 12, file: 'mp3', files: [
+    //         { id: 16, file: 'rock', files: [{ id: 17, file: 'soft.mp3', dateModified: '2015-05-13T13:50:00Z', size: 98, }] },
+    //         {
+    //           id: 14, file: 'pop', files: [
+    //             { id: 15, file: 'theme.mp3', description: 'Movie Theme Song', dateModified: '2015-03-01T17:05:00Z', size: 47, },
+    //             { id: 25, file: 'song.mp3', description: 'it is a song...', dateModified: '2016-10-04T06:33:44Z', size: 6.3, }
+    //           ],
+    //         },
+    //         { id: 33, file: 'other', files: [] }
+    //       ]
+    //     }]
+    //   },
+    //   {
+    //     id: 26, file: 'recipes', description: 'Cake Recipes', dateModified: '2012-03-05T12:44:00.123Z', files: [
+    //       { id: 29, file: 'cheesecake', description: 'strawberry cheesecake', dateModified: '2012-04-04T13:52:00.123Z', size: 0.2 },
+    //       { id: 30, file: 'chocolate-cake', description: 'tasty sweet chocolate cake', dateModified: '2012-05-05T09:22:00.123Z', size: 0.2 },
+    //       { id: 31, file: 'coffee-cake', description: 'chocolate coffee cake', dateModified: '2012-01-01T08:08:48.123Z', size: 0.2 },
+    //     ]
+    //   },
+    // ];
   }
 }
