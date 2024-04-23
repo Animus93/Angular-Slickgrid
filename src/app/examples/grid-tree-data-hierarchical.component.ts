@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ExcelExportService } from '@slickgrid-universal/excel-export';
 
 import {
@@ -24,7 +24,7 @@ import {
   styleUrls: ['grid-tree-data-hierarchical.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class GridTreeDataHierarchicalComponent implements OnInit {
+export class GridTreeDataHierarchicalComponent implements OnInit, AfterViewInit {
   title = 'Example 29: Tree Data with Aggregators <small><span class="mdi mdi-file-tree mdi-27px"></span> (from a Hierarchical Dataset - <a href="https://ghiscoding.gitbook.io/angular-slickgrid/grid-functionalities/tree-data-grid" target="_blank">Wiki</a>)</small>';
   subTitle = `<ul>
     <li><b>NOTE #1:</b> The grid will automatically sort Ascending with the column that has the Tree Data, you could add a "sortByFieldId" in your column "treeData" option if you wish to sort on a different column</li>
@@ -49,74 +49,117 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
   isRemoveLastInsertedPopSongDisabled = true;
   lastInsertedPopSongId: number | undefined;
   searchString = '';
+ ngAfterViewInit(): void {
 
+   this.collapseAll()
+ }
   ngOnInit(): void {
     // define the grid options & columns and then create the grid itself
     this.defineGrid();
 
     // mock a dataset
-    this.datasetHierarchical = this.mockDataset();
-    console.log('datasetHierarchical',this.datasetHierarchical)
+    this.datasetHierarchical = this.myData;
+    // this.datasetHierarchical = this.mockDataset();
+    console.log('datasetHierarchical', this.datasetHierarchical)
   }
-
+  //   {
+  //     id: 21, file: 'documents', files: [
+  //       { id: 2, file: 'txt', files: [{ id: 3, file: 'todo.txt', description: 'things to do someday maybe', dateModified: '2015-05-12T14:50:00.123Z', size: 0.7, }] },
+  //       {
+  //         id: 4, file: 'pdf', files: [
+  //           { id: 22, file: 'map2.pdf', dateModified: '2015-07-21T08:22:00.123Z', size: 2.9, },
+  //           { id: 5, file: 'map.pdf', dateModified: '2015-05-21T10:22:00.123Z', size: 3.1, },
+  //           { id: 6, file: 'internet-bill.pdf', dateModified: '2015-05-12T14:50:00.123Z', size: 1.3, },
+  //           { id: 23, file: 'phone-bill.pdf', dateModified: '2015-05-01T07:50:00.123Z', size: 1.5, },
+  //         ]
+  //       },
+  //       { id: 9, file: 'misc', files: [{ id: 10, file: 'warranties.txt', dateModified: '2015-02-26T16:50:00.123Z', size: 0.4, }] },
+  //       { id: 7, file: 'xls', files: [{ id: 8, file: 'compilation.xls', dateModified: '2014-10-02T14:50:00.123Z', size: 2.3, }] },
+  //       { id: 55, file: 'unclassified.csv', dateModified: '2015-04-08T03:44:12.333Z', size: 0.25, },
+  //       { id: 56, file: 'unresolved.csv', dateModified: '2015-04-03T03:21:12.000Z', size: 0.79, },
+  //       { id: 57, file: 'zebra.dll', dateModified: '2016-12-08T13:22:12.432', size: 1.22, },
+  //     ]
+  //   },
   defineGrid() {
     this.columnDefinitions = [
       {
-        id: 'file', name: 'Files', field: 'file',
+        id: 'name', name: 'Группа', field: 'name',
         type: FieldType.string, width: 150, formatter: this.treeFormatter,
         filterable: true, sortable: true,
       },
-      {
-        id: 'dateModified', name: 'Date Modified', field: 'dateModified',
-        formatter: Formatters.dateIso, type: FieldType.dateUtc, outputType: FieldType.dateIso, minWidth: 90,
-        exportWithFormatter: true, filterable: true, filter: { model: Filters.compoundDate }
-      },
-      {
-        id: 'description', name: 'Description', field: 'description', minWidth: 90,
-        filterable: true, sortable: true,
-      },
-      {
-        id: 'size', name: 'Size', field: 'size', minWidth: 90,
-        type: FieldType.number, exportWithFormatter: true,
-        excelExportOptions: { autoDetectCellFormat: false },
-        filterable: true, filter: { model: Filters.compoundInputNumber },
 
-        // Formatter option #1 (treeParseTotalFormatters)
-        // if you wish to use any of the GroupTotalFormatters (or even regular Formatters), we can do so with the code below
-        // use `treeTotalsFormatter` or `groupTotalsFormatter` to show totals in a Tree Data grid
-        // provide any regular formatters inside the params.formatters
+      // {
+      //   id: 'file', name: 'Files', field: 'file',
+      //   type: FieldType.string, width: 150, formatter: this.treeFormatter,
+      //   filterable: true, sortable: true,
+      // },
 
-        // formatter: Formatters.treeParseTotals,
-        // treeTotalsFormatter: GroupTotalFormatters.sumTotalsBold,
-        // // groupTotalsFormatter: GroupTotalFormatters.sumTotalsBold,
-        // params: {
-        //   // we can also supply extra params for Formatters/GroupTotalFormatters like min/max decimals
-        //   groupFormatterSuffix: ' MB', minDecimal: 0, maxDecimal: 2,
-        // },
+      // {
+      //   id: 'dateModified', name: 'Date Modified', field: 'dateModified',
+      //   formatter: Formatters.dateIso, type: FieldType.dateUtc, outputType: FieldType.dateIso, minWidth: 90,
+      //   exportWithFormatter: true, filterable: true, filter: { model: Filters.compoundDate }
+      // },
+      // {
+      //   id: 'description', name: 'Description', field: 'description', minWidth: 90,
+      //   filterable: true, sortable: true,
+      // },
+      // {
+      //   id: 'size', name: 'Size', field: 'size', minWidth: 90,
+      //   type: FieldType.number, exportWithFormatter: true,
+      //   excelExportOptions: { autoDetectCellFormat: false },
+      //   filterable: true, filter: { model: Filters.compoundInputNumber },
 
-        // OR option #2 (custom Formatter)
-        formatter: (_row, _cell, value, column, dataContext) => {
-          // parent items will a "__treeTotals" property (when creating the Tree and running Aggregation, it mutates all items, all extra props starts with "__" prefix)
-          const fieldId = column.field;
+      //   // "accountId": 1,
+      //   // "createdAt": "2024-04-22T05:59:59.684Z",
+      //   // "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      //   // "updatedAt": "2024-04-22T05:59:59.684Z",
+      //   // "updatedById": null,
+      //   // "id": 1,
+      //   // "name": "Автоматизация, интеграция",
+      //   // "weight": null,
+      //   // "projectId": 1,
+      //   // "parentTypeGroupId": null,
+      //   // "reqTypeId": 2,
+      //   // "position": null,
+      //   // "children": [
 
-          // Tree Totals, if exists, will be found under `__treeTotals` prop
-          if (dataContext?.__treeTotals !== undefined) {
-            const treeLevel = dataContext[this.gridOptions?.treeDataOptions?.levelPropName || '__treeLevel'];
-            const sumVal = dataContext?.__treeTotals?.['sum'][fieldId];
-            const avgVal = dataContext?.__treeTotals?.['avg'][fieldId];
 
-            if (avgVal !== undefined && sumVal !== undefined) {
-              // when found Avg & Sum, we'll display both
-              return isNaN(sumVal) ? '' : `<span class="color-primary bold">sum: ${decimalFormatted(sumVal, 0, 2)} MB</span> / <span class="avg-total">avg: ${decimalFormatted(avgVal, 0, 2)} MB</span> <span class="total-suffix">(${treeLevel === 0 ? 'total' : 'sub-total'})</span>`;
-            } else if (sumVal !== undefined) {
-              // or when only Sum is aggregated, then just show Sum
-              return isNaN(sumVal) ? '' : `<span class="color-primary bold">sum: ${decimalFormatted(sumVal, 0, 2)} MB</span> <span class="total-suffix">(${treeLevel === 0 ? 'total' : 'sub-total'})</span>`;
-            }
-          }
-          // reaching this line means it's a regular dataContext without totals, so regular formatter output will be used
-          return !isNumber(value) ? '' : `${value} MB`;
-        },
-      },
+      //   // Formatter option #1 (treeParseTotalFormatters)
+      //   // if you wish to use any of the GroupTotalFormatters (or even regular Formatters), we can do so with the code below
+      //   // use `treeTotalsFormatter` or `groupTotalsFormatter` to show totals in a Tree Data grid
+      //   // provide any regular formatters inside the params.formatters
+
+      //   // formatter: Formatters.treeParseTotals,
+      //   // treeTotalsFormatter: GroupTotalFormatters.sumTotalsBold,
+      //   // // groupTotalsFormatter: GroupTotalFormatters.sumTotalsBold,
+      //   // params: {
+      //   //   // we can also supply extra params for Formatters/GroupTotalFormatters like min/max decimals
+      //   //   groupFormatterSuffix: ' MB', minDecimal: 0, maxDecimal: 2,
+      //   // },
+
+      //   // OR option #2 (custom Formatter)
+      //   formatter: (_row, _cell, value, column, dataContext) => {
+      //     // parent items will a "__treeTotals" property (when creating the Tree and running Aggregation, it mutates all items, all extra props starts with "__" prefix)
+      //     const fieldId = column.field;
+
+      //     // Tree Totals, if exists, will be found under `__treeTotals` prop
+      //     if (dataContext?.__treeTotals !== undefined) {
+      //       const treeLevel = dataContext[this.gridOptions?.treeDataOptions?.levelPropName || '__treeLevel'];
+      //       const sumVal = dataContext?.__treeTotals?.['sum'][fieldId];
+      //       const avgVal = dataContext?.__treeTotals?.['avg'][fieldId];
+
+      //       if (avgVal !== undefined && sumVal !== undefined) {
+      //         // when found Avg & Sum, we'll display both
+      //         return isNaN(sumVal) ? '' : `<span class="color-primary bold">sum: ${decimalFormatted(sumVal, 0, 2)} MB</span> / <span class="avg-total">avg: ${decimalFormatted(avgVal, 0, 2)} MB</span> <span class="total-suffix">(${treeLevel === 0 ? 'total' : 'sub-total'})</span>`;
+      //       } else if (sumVal !== undefined) {
+      //         // or when only Sum is aggregated, then just show Sum
+      //         return isNaN(sumVal) ? '' : `<span class="color-primary bold">sum: ${decimalFormatted(sumVal, 0, 2)} MB</span> <span class="total-suffix">(${treeLevel === 0 ? 'total' : 'sub-total'})</span>`;
+      //       }
+      //     }
+      //     // reaching this line means it's a regular dataContext without totals, so regular formatter output will be used
+      //     return !isNumber(value) ? '' : `${value} MB`;
+      //   },
+      // },
     ];
 
     this.gridOptions = {
@@ -136,8 +179,8 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
       enableTreeData: true, // you must enable this flag for the filtering & sorting to work as expected
       multiColumnSort: false, // multi-column sorting is not supported with Tree Data, so you need to disable it
       treeDataOptions: {
-        columnId: 'file',
-        childrenPropName: 'files',
+        columnId: 'name',
+        childrenPropName: 'children',
         excludeChildrenWhenFilteringTree: this.isExcludingChildWhenFiltering, // defaults to false
 
         // skip any other filter criteria(s) if the column holding the Tree (file) passes its own filter criteria
@@ -247,10 +290,13 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
   }
 
   updateFilter() {
-    this.angularGrid.filterService.updateFilters([{ columnId: 'file', searchTerms: [this.searchString] }], true, false, true);
+    this.angularGrid.filterService.updateFilters([{ columnId: 'name', searchTerms: [this.searchString] }], true, false, true);
   }
 
   treeFormatter: Formatter = (_row, _cell, value, _columnDef, dataContext, grid) => {
+    // console.log('_row', _row, '_cell', _cell, 'value', value, '_columnDef', _columnDef, 'dataContext', dataContext, 'grid', grid)
+    // console.log('dataContext', dataContext);
+    // console.log('dataContext colaps', dataContext.__collapsed);
     const gridOptions = grid.getOptions();
     const treeLevelPropName = gridOptions.treeDataOptions && gridOptions.treeDataOptions.levelPropName || '__treeLevel';
     if (value === null || value === undefined || dataContext === undefined) {
@@ -260,39 +306,42 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
     const data = dataView.getItems();
     const identifierPropName = dataView.getIdPropertyName() || 'id';
     const idx = dataView.getIdxById(dataContext[identifierPropName]) as number;
-    const prefix = this.getFileIcon(value);
+    // const prefix = this.getFileIcon(value);
     const treeLevel = dataContext[treeLevelPropName];
     const exportIndentationLeadingChar = '.';
 
     value = value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const spacer = `<span style="display:inline-block; width:${(15 * treeLevel)}px;"></span>`;
+    // value = 'x'
+    console.log('treeLevel', idx);
+
+    const spacer = `<span class='test' style="display:inline-block; width:${(15 * treeLevel)}px;"></span>`;
     const indentSpacer = addWhiteSpaces(5 * treeLevel);
 
     if (data[idx + 1]?.[treeLevelPropName] > data[idx][treeLevelPropName] || data[idx]['__hasChildren']) {
       const folderPrefix = `<span class="mdi icon color-alt-warning ${dataContext.__collapsed ? 'mdi-folder' : 'mdi-folder-open'}"></span>`;
       if (dataContext.__collapsed) {
-        return `<span class="hidden">${exportIndentationLeadingChar}</span>${spacer}${indentSpacer} <span class="slick-group-toggle collapsed" level="${treeLevel}"></span>${folderPrefix} ${prefix} ${value}`;
+        return `<span class="hidden">${exportIndentationLeadingChar}</span>${spacer}${indentSpacer} <span class="slick-group-toggle collapsed" level="${treeLevel}"></span>${folderPrefix}${value}`;
       } else {
-        return `<span class="hidden">${exportIndentationLeadingChar}</span>${spacer}${indentSpacer} <span class="slick-group-toggle expanded" level="${treeLevel}"></span>${folderPrefix} ${prefix} ${value}`;
+        return `<span class="hidden">${exportIndentationLeadingChar}</span>${spacer}${indentSpacer} <span class="slick-group-toggle expanded" level="${treeLevel}"></span>${folderPrefix}${value}`;
       }
     } else {
-      return `<span class="hidden">${exportIndentationLeadingChar}</span>${spacer}${indentSpacer} <span class="slick-group-toggle" level="${treeLevel}"></span>${prefix} ${value}`;
+      return `<span class="hidden">${exportIndentationLeadingChar}</span>${spacer}${indentSpacer} <span class="slick-group-toggle" level="${treeLevel}"></span>${value}`;
     }
   };
 
-  getFileIcon(value: string) {
-    let prefix = '';
-    if (value.includes('.pdf')) {
-      prefix = '<span class="mdi icon mdi-file-pdf-outline color-danger"></span>';
-    } else if (value.includes('.txt')) {
-      prefix = '<span class="mdi icon mdi-file-document-outline color-muted-light"></span>';
-    } else if (value.includes('.xls')) {
-      prefix = '<span class="mdi icon mdi-file-excel-outline color-success"></span>';
-    } else if (value.includes('.mp3')) {
-      prefix = '<span class="mdi icon mdi-file-music-outline color-info"></span>';
-    }
-    return prefix;
-  }
+  // getFileIcon(value: string) {
+  //   let prefix = '';
+  //   if (value.includes('.pdf')) {
+  //     prefix = '<span class="mdi icon mdi-file-pdf-outline color-danger"></span>';
+  //   } else if (value.includes('.txt')) {
+  //     prefix = '<span class="mdi icon mdi-file-document-outline color-muted-light"></span>';
+  //   } else if (value.includes('.xls')) {
+  //     prefix = '<span class="mdi icon mdi-file-excel-outline color-success"></span>';
+  //   } else if (value.includes('.mp3')) {
+  //     prefix = '<span class="mdi icon mdi-file-music-outline color-info"></span>';
+  //   }
+  //   return prefix;
+  // }
 
   /**
    * A simple method to add a new item inside the first group that we find.
@@ -366,248 +415,247 @@ export class GridTreeDataHierarchicalComponent implements OnInit {
 
   public myData = [
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 1,
-        "name": "Автоматизация, интеграция",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": [
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 1,
+      "name": "Автоматизация, интеграция",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": [
+        {
+          "accountId": 1,
+          "createdAt": "2024-04-22T11:05:27.176Z",
+          "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+          "updatedAt": "2024-04-22T11:05:27.176Z",
+          "updatedById": null,
+          "id": 12,
+          "name": "2.1 подгруппа",
+          "weight": null,
+          "projectId": 1,
+          "parentTypeGroupId": 1,
+          "reqTypeId": 2,
+          "position": null,
+          "children": [
             {
-                "accountId": 1,
-                "createdAt": "2024-04-22T11:05:27.176Z",
-                "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-                "updatedAt": "2024-04-22T11:05:27.176Z",
-                "updatedById": null,
-                "id": 12,
-                "name": "2.1 подгруппа",
-                "weight": null,
-                "projectId": 1,
-                "parentTypeGroupId": 1,
-                "reqTypeId": 2,
-                "position": null,
-                "children": [
-                    {
-                        "accountId": 1,
-                        "createdAt": "2024-04-23T06:42:11.454Z",
-                        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-                        "updatedAt": "2024-04-23T06:42:13.238Z",
-                        "updatedById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-                        "id": 13,
-                        "name": "подгруппа 2.1.1",
-                        "weight": null,
-                        "projectId": 1,
-                        "parentTypeGroupId": 12,
-                        "reqTypeId": 2,
-                        "position": null,
-                        "children": []
-                    }
-                ]
-            },
-            {
-                "accountId": 1,
-                "createdAt": "2024-04-23T06:42:23.818Z",
-                "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-                "updatedAt": "2024-04-23T06:42:23.818Z",
-                "updatedById": null,
-                "id": 14,
-                "name": " подгруппа 2.2",
-                "weight": null,
-                "projectId": 1,
-                "parentTypeGroupId": 1,
-                "reqTypeId": 2,
-                "position": null,
-                "children": []
+              "accountId": 1,
+              "createdAt": "2024-04-23T06:42:11.454Z",
+              "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+              "updatedAt": "2024-04-23T06:42:13.238Z",
+              "updatedById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+              "id": 13,
+              "name": "подгруппа 2.1.1",
+              "weight": null,
+              "projectId": 1,
+              "parentTypeGroupId": 12,
+              "reqTypeId": 2,
+              "position": null,
+              "children": []
             }
-        ]
+          ]
+        },
+        {
+          "accountId": 1,
+          "createdAt": "2024-04-23T06:42:23.818Z",
+          "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+          "updatedAt": "2024-04-23T06:42:23.818Z",
+          "updatedById": null,
+          "id": 14,
+          "name": " подгруппа 2.2",
+          "weight": null,
+          "projectId": 1,
+          "parentTypeGroupId": 1,
+          "reqTypeId": 2,
+          "position": null,
+          "children": []
+        }
+      ]
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 9,
-        "name": "Коммуникации",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 9,
+      "name": "Коммуникации",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 4,
-        "name": "Логирование, версионирование",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 4,
+      "name": "Логирование, версионирование",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 7,
-        "name": "Написание статей",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 7,
+      "name": "Написание статей",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 2,
-        "name": "Работа с различными артефактами",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 2,
+      "name": "Работа с различными артефактами",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 5,
-        "name": "Уведомления",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 5,
+      "name": "Уведомления",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 3,
-        "name": "Чтение и обработка статьи пользователем",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 3,
+      "name": "Чтение и обработка статьи пользователем",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 8,
-        "name": "Шаблоны, переиспользуемые механики",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": []
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 8,
+      "name": "Шаблоны, переиспользуемые механики",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": []
     },
     {
-        "accountId": 1,
-        "createdAt": "2024-04-22T05:59:59.684Z",
-        "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-        "updatedAt": "2024-04-22T05:59:59.684Z",
-        "updatedById": null,
-        "id": 6,
-        "name": "кастомизация, расширения, плагины",
-        "weight": null,
-        "projectId": 1,
-        "parentTypeGroupId": null,
-        "reqTypeId": 2,
-        "position": null,
-        "children": [
-            {
-                "accountId": 1,
-                "createdAt": "2024-04-22T06:01:55.188Z",
-                "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-                "updatedAt": "2024-04-22T06:01:59.783Z",
-                "updatedById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
-                "id": 11,
-                "name": "кастомизация раслиен",
-                "weight": null,
-                "projectId": 1,
-                "parentTypeGroupId": 6,
-                "reqTypeId": 2,
-                "position": null,
-                "children": []
-            }
-        ]
+      "accountId": 1,
+      "createdAt": "2024-04-22T05:59:59.684Z",
+      "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+      "updatedAt": "2024-04-22T05:59:59.684Z",
+      "updatedById": null,
+      "id": 6,
+      "name": "кастомизация, расширения, плагины",
+      "weight": null,
+      "projectId": 1,
+      "parentTypeGroupId": null,
+      "reqTypeId": 2,
+      "position": null,
+      "children": [
+        {
+          "accountId": 1,
+          "createdAt": "2024-04-22T06:01:55.188Z",
+          "createdById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+          "updatedAt": "2024-04-22T06:01:59.783Z",
+          "updatedById": "3b0a3ace-b615-462f-88ac-2babca6697e4",
+          "id": 11,
+          "name": "кастомизация раслиен",
+          "weight": null,
+          "projectId": 1,
+          "parentTypeGroupId": 6,
+          "reqTypeId": 2,
+          "position": null,
+          "children": []
+        }
+      ]
     }
-]
+  ]
   mockDataset() {
-    return this.myData
-    // return [
-    //   { id: 24, file: 'bucket-list.txt', dateModified: '2012-03-05T12:44:00.123Z', size: 0.5 },
-    //   { id: 18, file: 'something.txt', dateModified: '2015-03-03T03:50:00.123Z', size: 90 },
-    //   {
-    //     id: 21, file: 'documents', files: [
-    //       { id: 2, file: 'txt', files: [{ id: 3, file: 'todo.txt', description: 'things to do someday maybe', dateModified: '2015-05-12T14:50:00.123Z', size: 0.7, }] },
-    //       {
-    //         id: 4, file: 'pdf', files: [
-    //           { id: 22, file: 'map2.pdf', dateModified: '2015-07-21T08:22:00.123Z', size: 2.9, },
-    //           { id: 5, file: 'map.pdf', dateModified: '2015-05-21T10:22:00.123Z', size: 3.1, },
-    //           { id: 6, file: 'internet-bill.pdf', dateModified: '2015-05-12T14:50:00.123Z', size: 1.3, },
-    //           { id: 23, file: 'phone-bill.pdf', dateModified: '2015-05-01T07:50:00.123Z', size: 1.5, },
-    //         ]
-    //       },
-    //       { id: 9, file: 'misc', files: [{ id: 10, file: 'warranties.txt', dateModified: '2015-02-26T16:50:00.123Z', size: 0.4, }] },
-    //       { id: 7, file: 'xls', files: [{ id: 8, file: 'compilation.xls', dateModified: '2014-10-02T14:50:00.123Z', size: 2.3, }] },
-    //       { id: 55, file: 'unclassified.csv', dateModified: '2015-04-08T03:44:12.333Z', size: 0.25, },
-    //       { id: 56, file: 'unresolved.csv', dateModified: '2015-04-03T03:21:12.000Z', size: 0.79, },
-    //       { id: 57, file: 'zebra.dll', dateModified: '2016-12-08T13:22:12.432', size: 1.22, },
-    //     ]
-    //   },
-    //   {
-    //     id: 11, file: 'music', files: [{
-    //       id: 12, file: 'mp3', files: [
-    //         { id: 16, file: 'rock', files: [{ id: 17, file: 'soft.mp3', dateModified: '2015-05-13T13:50:00Z', size: 98, }] },
-    //         {
-    //           id: 14, file: 'pop', files: [
-    //             { id: 15, file: 'theme.mp3', description: 'Movie Theme Song', dateModified: '2015-03-01T17:05:00Z', size: 47, },
-    //             { id: 25, file: 'song.mp3', description: 'it is a song...', dateModified: '2016-10-04T06:33:44Z', size: 6.3, }
-    //           ],
-    //         },
-    //         { id: 33, file: 'other', files: [] }
-    //       ]
-    //     }]
-    //   },
-    //   {
-    //     id: 26, file: 'recipes', description: 'Cake Recipes', dateModified: '2012-03-05T12:44:00.123Z', files: [
-    //       { id: 29, file: 'cheesecake', description: 'strawberry cheesecake', dateModified: '2012-04-04T13:52:00.123Z', size: 0.2 },
-    //       { id: 30, file: 'chocolate-cake', description: 'tasty sweet chocolate cake', dateModified: '2012-05-05T09:22:00.123Z', size: 0.2 },
-    //       { id: 31, file: 'coffee-cake', description: 'chocolate coffee cake', dateModified: '2012-01-01T08:08:48.123Z', size: 0.2 },
-    //     ]
-    //   },
-    // ];
+    return [
+      { id: 24, file: 'bucket-list.txt', dateModified: '2012-03-05T12:44:00.123Z', size: 0.5 },
+      { id: 18, file: 'something.txt', dateModified: '2015-03-03T03:50:00.123Z', size: 90 },
+      {
+        id: 21, file: 'documents', files: [
+          { id: 2, file: 'txt', files: [{ id: 3, file: 'todo.txt', description: 'things to do someday maybe', dateModified: '2015-05-12T14:50:00.123Z', size: 0.7, }] },
+          {
+            id: 4, file: 'pdf', files: [
+              { id: 22, file: 'map2.pdf', dateModified: '2015-07-21T08:22:00.123Z', size: 2.9, },
+              { id: 5, file: 'map.pdf', dateModified: '2015-05-21T10:22:00.123Z', size: 3.1, },
+              { id: 6, file: 'internet-bill.pdf', dateModified: '2015-05-12T14:50:00.123Z', size: 1.3, },
+              { id: 23, file: 'phone-bill.pdf', dateModified: '2015-05-01T07:50:00.123Z', size: 1.5, },
+            ]
+          },
+          { id: 9, file: 'misc', files: [{ id: 10, file: 'warranties.txt', dateModified: '2015-02-26T16:50:00.123Z', size: 0.4, }] },
+          { id: 7, file: 'xls', files: [{ id: 8, file: 'compilation.xls', dateModified: '2014-10-02T14:50:00.123Z', size: 2.3, }] },
+          { id: 55, file: 'unclassified.csv', dateModified: '2015-04-08T03:44:12.333Z', size: 0.25, },
+          { id: 56, file: 'unresolved.csv', dateModified: '2015-04-03T03:21:12.000Z', size: 0.79, },
+          { id: 57, file: 'zebra.dll', dateModified: '2016-12-08T13:22:12.432', size: 1.22, },
+        ]
+      },
+      {
+        id: 11, file: 'music', files: [{
+          id: 12, file: 'mp3', files: [
+            { id: 16, file: 'rock', files: [{ id: 17, file: 'soft.mp3', dateModified: '2015-05-13T13:50:00Z', size: 98, }] },
+            {
+              id: 14, file: 'pop', files: [
+                { id: 15, file: 'theme.mp3', description: 'Movie Theme Song', dateModified: '2015-03-01T17:05:00Z', size: 47, },
+                { id: 25, file: 'song.mp3', description: 'it is a song...', dateModified: '2016-10-04T06:33:44Z', size: 6.3, }
+              ],
+            },
+            { id: 33, file: 'other', files: [] }
+          ]
+        }]
+      },
+      {
+        id: 26, file: 'recipes', description: 'Cake Recipes', dateModified: '2012-03-05T12:44:00.123Z', files: [
+          { id: 29, file: 'cheesecake', description: 'strawberry cheesecake', dateModified: '2012-04-04T13:52:00.123Z', size: 0.2 },
+          { id: 30, file: 'chocolate-cake', description: 'tasty sweet chocolate cake', dateModified: '2012-05-05T09:22:00.123Z', size: 0.2 },
+          { id: 31, file: 'coffee-cake', description: 'chocolate coffee cake', dateModified: '2012-01-01T08:08:48.123Z', size: 0.2 },
+        ]
+      },
+    ];
   }
 }
