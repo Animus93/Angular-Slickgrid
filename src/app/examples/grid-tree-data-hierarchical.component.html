@@ -87,10 +87,19 @@
     </label>
   </div> -->
 
-  <angular-slickgrid gridId="grid29"
-                     [columnDefinitions]="columnDefinitions"
-                     [gridOptions]="gridOptions"
-                     [datasetHierarchical]="datasetHierarchical"
-                     (onAngularGridCreated)="angularGridReady($event.detail)">
-  </angular-slickgrid>
+<angular-slickgrid
+  gridId="grid17"
+  [(columnDefinitions)]="columnDefinitions"
+  [gridOptions]="gridOptions"
+  [datasetHierarchical]="datasetHierarchical"
+  (onAngularGridCreated)="angularGridReady($event.detail)"
+>
+</angular-slickgrid>
 <!-- </div> -->
+<!-- <angular-slickgrid
+  gridId="grid17"
+  [gridOptions]="gridOptions"
+  [dataset]="dataset"
+  (onAngularGridCreated)="angularGridReady($event.detail)"
+>
+</angular-slickgrid> -->

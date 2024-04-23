@@ -43,21 +43,21 @@ export class GridRowMoveComponent implements OnInit {
       { id: '%', name: '% Complete', field: 'percentComplete', filterable: true, sortable: true },
       {
         id: 'start', name: 'Start', field: 'start', filterable: true, sortable: true,
-        filter: { model: Filters.compoundDate },
+        // filter: { model: Filters.compoundDate },
       },
       {
         id: 'finish', name: 'Finish', field: 'finish',
         filterable: true, sortable: true,
-        filter: { model: Filters.compoundDate },
+        // filter: { model: Filters.compoundDate },
       },
       {
         id: 'effort-driven', name: 'Completed', field: 'effortDriven',
         formatter: Formatters.checkmark,
         filterable: true, sortable: true,
-        filter: {
-          collection: [{ value: '', label: '' }, { value: true, label: 'True' }, { value: false, label: 'False' }],
-          model: Filters.singleSelect
-        },
+        // filter: {
+        //   collection: [{ value: '', label: '' }, { value: true, label: 'True' }, { value: false, label: 'False' }],
+        //   model: Filters.singleSelect
+        // },
       }
     ];
 
